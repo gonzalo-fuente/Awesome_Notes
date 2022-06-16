@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import InputIcon from "@mui/icons-material/Input";
+import OutputIcon from "@mui/icons-material/Output";
 
 import NoteDetails from "../NoteDetails/NoteDetails";
 
@@ -62,10 +64,25 @@ const Note = ({ note, deleteNote, handleEdit }) => {
                   flexGrow: 1,
                 }}
               >
+                {note.archived ? (
+                  <OutputIcon
+                    align="center"
+                    color="primary"
+                    sx={{ mr: 1 }}
+                    onClick={() => handleEdit(note.id, "archived")}
+                  />
+                ) : (
+                  <InputIcon
+                    align="center"
+                    color="primary"
+                    sx={{ mr: 1 }}
+                    onClick={() => handleEdit(note.id, "archived")}
+                  />
+                )}
                 <EditOutlinedIcon
                   align="center"
                   color="primary"
-                  onClick={() => handleEdit(note.id)}
+                  onClick={() => handleEdit(note.id, "note")}
                 />
                 <DeleteOutlinedIcon
                   align="center"

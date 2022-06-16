@@ -17,6 +17,7 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     title: "",
     content: "",
     editedAt: "",
+    archived: false,
     color: "",
   });
   const [validationError, setValidationError] = useState(false);
@@ -57,6 +58,7 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
             id: uuid(),
             editedAt: Date.now(),
             color: color,
+            archived: false,
           })
         );
         handleCancel();
@@ -69,6 +71,7 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
       title: "",
       content: "",
       editedAt: "",
+      archived: false,
     });
     setValidationError(false);
     setEditedNote(null);

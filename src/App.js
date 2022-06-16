@@ -5,7 +5,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import CircleLoader from "./components/CircleLoader/CircleLoader";
-import Archived from "./pages/Archived/Archived";
 import Login from "./pages/Login/Login";
 import MyNotes from "./pages/MyNotes/MyNotes";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
@@ -48,21 +47,6 @@ function App() {
                   variants={pageTransition}
                 >
                   <MyNotes />
-                </motion.div>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/archived"
-            element={
-              <RequireAuth>
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={pageTransition}
-                >
-                  <Archived />
                 </motion.div>
               </RequireAuth>
             }

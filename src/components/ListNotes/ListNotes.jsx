@@ -8,7 +8,7 @@ import CircleLoader from "../CircleLoader/CircleLoader";
 
 import swal from "sweetalert";
 
-const ListNotes = ({ handleEdit }) => {
+const ListNotes = ({ notesList, handleEdit }) => {
   const dispatch = useDispatch();
   const { loading, notes, error } = useSelector((state) => state.notesReducer);
 
@@ -32,9 +32,9 @@ const ListNotes = ({ handleEdit }) => {
         <CircleLoader />
       ) : (
         <>
-          {notes.length ? (
+          {notesList.length ? (
             <Grid container spacing={2}>
-              {notes.map((note) => (
+              {notesList.map((note) => (
                 <Grid item xs={12} md={6} key={note.id}>
                   <Note
                     note={note}

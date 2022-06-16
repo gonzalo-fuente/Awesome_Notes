@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getNotes } from "../../store/actions/notesActions";
+import { editNote, getNotes } from "../../store/actions/notesActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";
@@ -14,17 +14,28 @@ const MyNotes = () => {
   const [notesList, setNotesList] = useState([]);
   const [editedNote, setEditedNote] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isArchived, setIsArchived] = useState(false);
 
   const dispatch = useDispatch();
-  const { loading, notes, error } = useSelector((state) => state.notesReducer);
+  const { notes } = useSelector((state) => state.notesReducer);
 
   useEffect(() => {
     dispatch(getNotes());
   }, []);
 
-  const handleEdit = (id) => {
-    setEditedNote(notes.filter((note) => note.id === id)[0]);
-    setOpen(true);
+  useEffect(() => {
+    setNotesList(notes.filter((note) => note.archived === isArchived));
+  }, [notes, isArchived]);
+
+  const handleEdit = (id, type) => {
+    if (type === "note") {
+      setEditedNote(notes.filter((note) => note.id === id)[0]);
+      setOpen(true);
+    } else if (type === "archived") {
+      const archivedNote = notes.filter((note) => note.id === id)[0];
+      archivedNote.archived = !archivedNote.archived;
+      dispatch(editNote(notes, archivedNote));
+    }
   };
 
   const handleOpen = () => {
@@ -40,15 +51,21 @@ const MyNotes = () => {
       <Container>
         <Box sx={{ display: "flex", alignItems: "center", gap: "2em" }}>
           <Typography variant="h4" my={2}>
-            My Notes
+            {isArchived ? "Archived" : "My Notes"}
           </Typography>
-          <Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: "2em" }}>
             <Button variant="contained" onClick={handleOpen}>
               Create Note
             </Button>
+            <Button
+              variant="text"
+              onClick={() => setIsArchived((prevState) => !prevState)}
+            >
+              {isArchived ? "My Notes" : "Archived"}
+            </Button>
           </Box>
         </Box>
-        <ListNotes notesList={notes} handleEdit={handleEdit} />
+        <ListNotes notesList={notesList} handleEdit={handleEdit} />
         <CreateEditNote
           open={open}
           handleClose={handleClose}
