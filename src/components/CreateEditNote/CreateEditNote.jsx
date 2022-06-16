@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createNote, editNote } from "../../store/actions/notesActions";
 import { v4 as uuid } from "uuid";
 
+import ShowCategories from "../ShowCategories/ShowCategories";
+
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -18,15 +20,19 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     content: "",
     editedAt: "",
     archived: false,
+    categories: [],
     color: "",
   });
   const [validationError, setValidationError] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
   const dispatch = useDispatch();
   const { notes } = useSelector((state) => state.notesReducer);
 
   useEffect(() => {
     if (editedNote) {
       setNewNote({ ...editedNote });
+      setCategories([...editedNote.categories]);
     }
   }, [editedNote]);
 
@@ -48,7 +54,13 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
       setValidationError(true);
     } else {
       if (editedNote) {
-        dispatch(editNote(notes, { ...newNote, editedAt: Date.now() }));
+        dispatch(
+          editNote(notes, {
+            ...newNote,
+            editedAt: Date.now(),
+            categories: categories,
+          })
+        );
         handleCancel();
       } else {
         const color = colors[Math.floor(Math.random() * 5)];
@@ -59,6 +71,7 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
             editedAt: Date.now(),
             color: color,
             archived: false,
+            categories: categories,
           })
         );
         handleCancel();
@@ -75,7 +88,15 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     });
     setValidationError(false);
     setEditedNote(null);
+    setCategories([]);
     handleClose();
+  };
+
+  const handleCategories = () => {
+    if (category) {
+      setCategories((prevState) => [...prevState, category]);
+      setCategory("");
+    }
   };
 
   return (
@@ -113,6 +134,27 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
             value={newNote.content}
             onChange={handleChange}
           />
+
+          {categories.length ? (
+            <ShowCategories
+              categories={categories}
+              setCategories={setCategories}
+            />
+          ) : null}
+
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <TextField
+              id="category"
+              label="New Category"
+              name="category"
+              sx={{ flexGrow: 1, mr: 2 }}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            />
+            <Button variant="contained" onClick={handleCategories}>
+              Add
+            </Button>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button color="error" onClick={handleCancel}>

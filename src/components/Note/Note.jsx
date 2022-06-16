@@ -68,25 +68,27 @@ const Note = ({ note, deleteNote, handleEdit }) => {
                   <OutputIcon
                     align="center"
                     color="primary"
-                    sx={{ mr: 1 }}
+                    sx={{ mr: 1, cursor: "pointer" }}
                     onClick={() => handleEdit(note.id, "archived")}
                   />
                 ) : (
                   <InputIcon
                     align="center"
                     color="primary"
-                    sx={{ mr: 1 }}
+                    sx={{ mr: 1, cursor: "pointer" }}
                     onClick={() => handleEdit(note.id, "archived")}
                   />
                 )}
                 <EditOutlinedIcon
                   align="center"
                   color="primary"
+                  sx={{ cursor: "pointer" }}
                   onClick={() => handleEdit(note.id, "note")}
                 />
                 <DeleteOutlinedIcon
                   align="center"
                   color="error"
+                  sx={{ cursor: "pointer" }}
                   onClick={() => deleteNote(note.id)}
                 />
               </Box>
