@@ -131,8 +131,11 @@ const Login = () => {
           >
             <AccountCircleIcon color="disabled" sx={{ fontSize: 80 }} />
 
-            <Typography component="h1" variant="h5">
-              Log in
+            <Typography component="h1" variant="h5" sx={{ fontWeight: "600" }}>
+              Hello Again!
+            </Typography>
+            <Typography component="h1" variant="h6">
+              Welcome Back
             </Typography>
             <Box
               component="form"

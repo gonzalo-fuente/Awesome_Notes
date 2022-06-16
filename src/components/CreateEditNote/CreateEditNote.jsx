@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createNote, editNote } from "../../store/actions/notesActions";
 import { v4 as uuid } from "uuid";
 
 import TextField from "@mui/material/TextField";
@@ -9,14 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Box from "@mui/system/Box";
 
-const CreateEditNote = ({
-  open,
-  handleClose,
-  addNote,
-  editedNote,
-  setEditedNote,
-  editNote,
-}) => {
+const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
   const [newNote, setNewNote] = useState({
     id: "",
     title: "",
@@ -24,7 +19,9 @@ const CreateEditNote = ({
     editedAt: "",
     color: "",
   });
-  const [error, setError] = useState(false);
+  const [validationError, setValidationError] = useState(false);
+  const dispatch = useDispatch();
+  const { notes } = useSelector((state) => state.notesReducer);
 
   useEffect(() => {
     if (editedNote) {
@@ -47,14 +44,21 @@ const CreateEditNote = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newNote.title === "") {
-      setError(true);
+      setValidationError(true);
     } else {
       if (editedNote) {
-        editNote({ ...newNote, editedAt: Date.now() });
+        dispatch(editNote(notes, { ...newNote, editedAt: Date.now() }));
         handleCancel();
       } else {
         const color = colors[Math.floor(Math.random() * 5)];
-        addNote({ ...newNote, id: uuid(), editedAt: Date.now(), color: color });
+        dispatch(
+          createNote(notes, {
+            ...newNote,
+            id: uuid(),
+            editedAt: Date.now(),
+            color: color,
+          })
+        );
         handleCancel();
       }
     }
@@ -66,7 +70,7 @@ const CreateEditNote = ({
       content: "",
       editedAt: "",
     });
-    setError(false);
+    setValidationError(false);
     setEditedNote(null);
     handleClose();
   };
@@ -92,8 +96,8 @@ const CreateEditNote = ({
             required
             value={newNote.title}
             onChange={handleChange}
-            error={error}
-            helperText={error && "* The Title is required"}
+            error={validationError}
+            helperText={validationError && "* The Title is required"}
           />
           <TextField
             margin="normal"

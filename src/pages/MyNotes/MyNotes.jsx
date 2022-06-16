@@ -1,53 +1,30 @@
 import { useEffect, useState } from "react";
+import { getNotes } from "../../store/actions/notesActions";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/system/Container";
 import Box from "@mui/material/Box";
 
-import swal from "sweetalert";
-
 import CreateEditNote from "../../components/CreateEditNote/CreateEditNote";
 import ListNotes from "../../components/ListNotes/ListNotes";
-
-import { notes } from "../../db";
 
 const MyNotes = () => {
   const [notesList, setNotesList] = useState([]);
   const [editedNote, setEditedNote] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const dispatch = useDispatch();
+  const { loading, notes, error } = useSelector((state) => state.notesReducer);
+
   useEffect(() => {
-    setNotesList(notes);
+    dispatch(getNotes());
   }, []);
 
-  const addNote = (newNote) => {
-    setNotesList((prevNotesList) => [...prevNotesList, newNote]);
-  };
-
   const handleEdit = (id) => {
-    setEditedNote(notesList.filter((note) => note.id === id)[0]);
+    setEditedNote(notes.filter((note) => note.id === id)[0]);
     setOpen(true);
-  };
-
-  const editNote = (editedNote) => {
-    const newNotesList = notesList.filter((note) => note.id !== editedNote.id);
-    setNotesList([...newNotesList, editedNote]);
-  };
-
-  const deleteNote = (id) => {
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this Note!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        const newNotesList = notesList.filter((note) => note.id !== id);
-        setNotesList(newNotesList);
-      }
-    });
   };
 
   const handleOpen = () => {
@@ -71,18 +48,12 @@ const MyNotes = () => {
             </Button>
           </Box>
         </Box>
-        <ListNotes
-          notesList={notesList}
-          deleteNote={deleteNote}
-          handleEdit={handleEdit}
-        />
+        <ListNotes notesList={notes} handleEdit={handleEdit} />
         <CreateEditNote
           open={open}
           handleClose={handleClose}
-          addNote={addNote}
           editedNote={editedNote}
           setEditedNote={setEditedNote}
-          editNote={editNote}
         />
       </Container>
     </>

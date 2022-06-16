@@ -8,7 +8,7 @@ const CircleLoader = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "70vh",
       }}
     >
       <CircularProgress size={"5rem"} />
