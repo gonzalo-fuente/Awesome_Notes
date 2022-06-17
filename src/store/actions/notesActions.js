@@ -54,9 +54,7 @@ export const editNote = (notes, editedNote) => (dispatch) => {
 
 export const deleteNotes = (notes, id) => (dispatch) => {
   dispatch(notesRequest());
-  console.log(notes, id);
   const newNotes = notes.filter((note) => note.id !== id);
-  console.log(newNotes);
   localStorage.setItem("notes", JSON.stringify(newNotes));
   dispatch(getNotes(""));
 

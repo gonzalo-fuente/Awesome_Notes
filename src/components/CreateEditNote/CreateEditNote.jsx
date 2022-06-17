@@ -89,6 +89,7 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     setValidationError(false);
     setEditedNote(null);
     setCategories([]);
+    setCategory("");
     handleClose();
   };
 

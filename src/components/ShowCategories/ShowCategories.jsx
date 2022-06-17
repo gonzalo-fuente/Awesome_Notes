@@ -17,7 +17,7 @@ const ShowCategories = ({ categories, setCategories }) => {
       <List>
         {categories.length
           ? categories.map((category, index) => (
-              <ListItem>
+              <ListItem key={index}>
                 <ListItemText primary={category} />
                 <ListItemIcon>
                   <DeleteOutlinedIcon

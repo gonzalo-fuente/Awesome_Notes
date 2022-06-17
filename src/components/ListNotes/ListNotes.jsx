@@ -10,7 +10,7 @@ import swal from "sweetalert";
 
 const ListNotes = ({ notesList, handleEdit }) => {
   const dispatch = useDispatch();
-  const { loading, notes, error } = useSelector((state) => state.notesReducer);
+  const { loading, notes } = useSelector((state) => state.notesReducer);
 
   const deleteNote = (id) => {
     swal({
