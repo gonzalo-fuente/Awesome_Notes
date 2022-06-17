@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 
 import CreateEditNote from "../../components/CreateEditNote/CreateEditNote";
 import ListNotes from "../../components/ListNotes/ListNotes";
+import Navbar from "../../components/Navbar/Navbar";
 
 const MyNotes = () => {
   const [notesList, setNotesList] = useState([]);
@@ -48,6 +49,7 @@ const MyNotes = () => {
 
   return (
     <>
+      <Navbar />
       <Container>
         <Box sx={{ display: "flex", alignItems: "center", gap: "2em" }}>
           <Typography variant="h4" my={2}>

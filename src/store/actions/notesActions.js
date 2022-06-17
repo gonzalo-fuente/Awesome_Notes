@@ -17,6 +17,13 @@ export const notesFailure = (error) => ({
 export const getNotes = (path) => async (dispatch) => {
   dispatch(notesRequest());
 
+  //The first time the app runs there's no "notes" in localStorage
+  //This produces the app loads indefinitely, so in this case
+  //I create "notes"
+  if (localStorage.getItem("notes") === null) {
+    localStorage.setItem("notes", "[]");
+  }
+
   try {
     const response = await localStorage.getItem("notes");
     if (response) {
@@ -36,7 +43,7 @@ export const createNote = (notes, newNote) => (dispatch) => {
   dispatch(getNotes());
 };
 
-export const editNote = (notes, editedNote) => async (dispatch) => {
+export const editNote = (notes, editedNote) => (dispatch) => {
   dispatch(notesRequest());
 
   const newNotesList = notes.filter((note) => note.id !== editedNote.id);

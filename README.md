@@ -5,7 +5,7 @@ and filter them.
 
 ## Live demo
 
-[Link to the site!](https://la-cuisine-de-ma-grand-mere.netlify.app/)
+[Link to the site!](https://awesome-notes-react.netlify.app/)
 
 ## Use cases
 
