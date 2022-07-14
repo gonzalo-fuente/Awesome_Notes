@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { v4 as uuid } from "uuid";
 import swal from "sweetalert";
 import { useAuth } from "../../utils/useAuth";
+import { axiosInstance } from "../../utils/axios";
+import { useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,6 +13,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import loginImg from "../../assets/Login.png";
@@ -18,7 +21,9 @@ import loginImg from "../../assets/Login.png";
 const theme = createTheme();
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
@@ -26,52 +31,40 @@ const Login = () => {
   };
 
   const onSubmit = async (values) => {
-    if (values.email === "user@user.com" && values.password === "password") {
-      login(uuid());
-    } else {
-      swal({
-        title: "Email or Password Incorrect",
-        icon: "error",
-      });
-    }
-
     /* ------- POST TO AUTHORIZATION API ------- */
-    // const user = { ...values };
-    // try {
-    //   const response = await axiosInstance.post(
-    //     url,
-    //     JSON.stringify(user)
-    //   );
-    //   if (response.status === 200) {
-    //     const data = response.data.result;
-    //     sessionStorage.setItem("token", data.token);
-    //     navigate("/", { replace: true });
-    //   }
-    // } catch (err) {
-    //   if (!err?.response) {
-    //     swal({
-    //       title: "No Server Response",
-    //       icon: "error",
-    //     });
-    //   } else if (err.response?.status === 401) {
-    //     /* Unauthorized */
-    //     swal({
-    //       title: "User Name or Password Incorrect",
-    //       icon: "error",
-    //     });
-    //   } else if (err.response?.status === 404) {
-    //     /* Not found */
-    //     swal({
-    //       title: "User Not Found",
-    //       icon: "error",
-    //     });
-    //   } else {
-    //     swal({
-    //       title: "Request Error, try again later",
-    //       icon: "error",
-    //     });
-    //   }
-    // }
+    setLoading(true);
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      const response = await axiosInstance.post("/auth", JSON.stringify(user));
+      if (response.status === 200) {
+        const token = response.data.accessToken;
+        login(token);
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      if (!err?.response) {
+        swal({
+          title: "No Server Response",
+          icon: "error",
+        });
+      } else if (err.response?.status === 401) {
+        /* Unauthorized */
+        swal({
+          title: "User Name or Password Incorrect",
+          icon: "error",
+        });
+      } else {
+        swal({
+          title: "Request Error, try again later",
+          icon: "error",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
     /* ------- POST TO AUTHORIZATION API ------- */
   };
 
@@ -172,15 +165,20 @@ const Login = () => {
                 helperText={touched.password && errors.password}
               />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Log In
-              </Button>
+              {!loading && (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Log In
+                </Button>
+              )}
             </Box>
+            {loading && (
+              <CircularProgress size={"3rem"} sx={{ mt: 2, mb: 2 }} />
+            )}
           </Box>
         </Grid>
       </Grid>
