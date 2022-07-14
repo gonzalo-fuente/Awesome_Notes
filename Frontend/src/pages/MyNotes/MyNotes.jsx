@@ -16,7 +16,7 @@ const MyNotes = () => {
   const [notesList, setNotesList] = useState([]);
   const [editedNote, setEditedNote] = useState(null);
   const [open, setOpen] = useState(false);
-  const [isArchived, setIsArchived] = useState(false);
+  const [isNoteArchived, setIsNoteArchived] = useState(false);
   const [categories, setCategories] = useState([]);
   const [filterCategory, setFilterCategory] = useState("");
 
@@ -30,20 +30,24 @@ const MyNotes = () => {
 
   // Filter Notes
   useEffect(() => {
-    const filterArchived = notes.filter((note) => note.archived === isArchived);
+    const filterArchived = notes.filter(
+      (note) => note.isArchived === isNoteArchived
+    );
     if (filterCategory === "") {
       setNotesList(filterArchived);
     } else {
       const filterByCategory = filterArchived.filter(
-        (note) => note.categories.indexOf(filterCategory) != -1
+        (note) => note.categories.indexOf(filterCategory) !== -1
       );
       setNotesList(filterByCategory);
     }
-  }, [notes, isArchived, filterCategory]);
+  }, [notes, isNoteArchived, filterCategory]);
 
   //Get all categories from notes
   useEffect(() => {
-    const filterArchived = notes.filter((note) => note.archived === isArchived);
+    const filterArchived = notes.filter(
+      (note) => note.isArchived === isNoteArchived
+    );
     const categoriesArray = [];
     filterArchived.forEach((note) => {
       note.categories.forEach((category) => {
@@ -53,7 +57,7 @@ const MyNotes = () => {
       });
     });
     setCategories(categoriesArray);
-  }, [notes, isArchived]);
+  }, [notes, isNoteArchived]);
 
   const handleEdit = (id, type) => {
     if (type === "note") {
@@ -61,8 +65,8 @@ const MyNotes = () => {
       setOpen(true);
     } else if (type === "archived") {
       const archivedNote = notes.filter((note) => note.id === id)[0];
-      archivedNote.archived = !archivedNote.archived;
-      dispatch(editNote(notes, archivedNote));
+      archivedNote.isArchived = !archivedNote.isArchived;
+      dispatch(editNote(archivedNote));
     }
   };
 
@@ -76,7 +80,7 @@ const MyNotes = () => {
 
   const handleArchived = () => {
     setFilterCategory("");
-    setIsArchived((prevState) => !prevState);
+    setIsNoteArchived((prevState) => !prevState);
   };
 
   return (
@@ -85,7 +89,7 @@ const MyNotes = () => {
       <Container>
         <Box sx={{ display: "flex", alignItems: "center", gap: "2em", mt: 2 }}>
           <Typography variant="h4" my={2}>
-            {isArchived ? "Archived" : "My Notes"}
+            {isNoteArchived ? "Archived" : "My Notes"}
           </Typography>
           <Box
             sx={{
@@ -102,7 +106,7 @@ const MyNotes = () => {
               Create Note
             </Button>
             <Button variant="text" onClick={handleArchived}>
-              {isArchived ? "My Notes" : "Archived"}
+              {isNoteArchived ? "My Notes" : "Archived"}
             </Button>
           </Box>
         </Box>

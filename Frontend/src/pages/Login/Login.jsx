@@ -165,16 +165,15 @@ const Login = () => {
                 helperText={touched.password && errors.password}
               />
 
-              {!loading && (
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Log In
-                </Button>
-              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={loading}
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Log In
+              </Button>
             </Box>
             {loading && (
               <CircularProgress size={"3rem"} sx={{ mt: 2, mb: 2 }} />
