@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "make-model": "npx sequelize-cli model:generate --name Note --attributes title:string,content:string,isArchived:boolean,categories:array,color:string",
     "create": "npx sequelize-cli db:create",
     "migrate": "npx sequelize-cli db:migrate",
     "start": "npm run server",

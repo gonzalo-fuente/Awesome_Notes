@@ -2,7 +2,9 @@ const { Note } = require("../models");
 
 const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.findAll();
+    const notes = await Note.findAll({
+      order: [["id", "ASC"]],
+    });
     if (notes.length === 0)
       return res.status(204).json({ "message": "No notes found." });
     res.json(notes);

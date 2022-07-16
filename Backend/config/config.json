@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "postgrespass",
-    "database": "awesome_notes",
+    "username": "your-username",
+    "password": "your-password",
+    "database": "your-database",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "postgrespass",
-    "database": "awesome_notes",
+    "username": "your-username",
+    "password": "your-password",
+    "database": "your-database",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "postgrespass",
-    "database": "awesome_notes",
+    "username": "your-username",
+    "password": "your-password",
+    "database": "your-database",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
