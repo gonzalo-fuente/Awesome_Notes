@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "2dea7b1f-58e5-43f1-a4fe-a6797715fc20",
+		"name": "AwesomeNotes-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@user.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/register",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@user.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/auth",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notes",
+			"item": [
+				{
+					"name": "Get Notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/notes",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/notes/1",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"notes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Note 1\",\n    \"content\": \"This is a test\",\n    \"isArchived\": false,\n    \"categories\": [],\n    \"color\": \"#ff7eb9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/notes",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"title\": \"Note 2\",\n    \"content\": \"This is a test\",\n    \"isArchived\": false,\n    \"categories\": [],\n    \"color\": \"#ff7eb9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/notes",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/notes",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/users",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/users/1",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InVzZXJAdXNlci5jb20ifSwiaWF0IjoxNjU3OTI5ODg5LCJleHAiOjE2NTc5MzcwODl9.4u_TYvNzzuX3hp55nZdAiWRcO9PQjjWzu6NAfH086Fs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://awesome-notes-backend.herokuapp.com/users",
+							"protocol": "https",
+							"host": [
+								"awesome-notes-backend",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
