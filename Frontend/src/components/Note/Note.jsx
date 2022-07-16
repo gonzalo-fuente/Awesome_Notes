@@ -12,8 +12,8 @@ import OutputIcon from "@mui/icons-material/Output";
 
 import NoteDetails from "../NoteDetails/NoteDetails";
 
-const Note = ({ note, deleteNote, handleEdit }) => {
-  const dateTime = new Date(note.editedAt).toLocaleString();
+const Note = ({ note, deleteANote, handleEdit }) => {
+  const dateTime = new Date(note.updatedAt).toLocaleString();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -64,7 +64,7 @@ const Note = ({ note, deleteNote, handleEdit }) => {
                   flexGrow: 1,
                 }}
               >
-                {note.archived ? (
+                {note.isArchived ? (
                   <OutputIcon
                     align="center"
                     color="primary"
@@ -89,7 +89,7 @@ const Note = ({ note, deleteNote, handleEdit }) => {
                   align="center"
                   color="error"
                   sx={{ cursor: "pointer" }}
-                  onClick={() => deleteNote(note.id)}
+                  onClick={() => deleteANote(note.id)}
                 />
               </Box>
             </Box>

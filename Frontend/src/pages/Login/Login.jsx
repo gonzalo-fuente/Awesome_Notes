@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { v4 as uuid } from "uuid";
 import swal from "sweetalert";
 import { useAuth } from "../../utils/useAuth";
+import { axiosInstance } from "../../utils/axios";
+import { useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,14 +13,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import loginImg from "../../assets/Login.png";
 
-const theme = createTheme();
-
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
@@ -26,52 +28,40 @@ const Login = () => {
   };
 
   const onSubmit = async (values) => {
-    if (values.email === "user@user.com" && values.password === "password") {
-      login(uuid());
-    } else {
-      swal({
-        title: "Email or Password Incorrect",
-        icon: "error",
-      });
-    }
-
     /* ------- POST TO AUTHORIZATION API ------- */
-    // const user = { ...values };
-    // try {
-    //   const response = await axiosInstance.post(
-    //     url,
-    //     JSON.stringify(user)
-    //   );
-    //   if (response.status === 200) {
-    //     const data = response.data.result;
-    //     sessionStorage.setItem("token", data.token);
-    //     navigate("/", { replace: true });
-    //   }
-    // } catch (err) {
-    //   if (!err?.response) {
-    //     swal({
-    //       title: "No Server Response",
-    //       icon: "error",
-    //     });
-    //   } else if (err.response?.status === 401) {
-    //     /* Unauthorized */
-    //     swal({
-    //       title: "User Name or Password Incorrect",
-    //       icon: "error",
-    //     });
-    //   } else if (err.response?.status === 404) {
-    //     /* Not found */
-    //     swal({
-    //       title: "User Not Found",
-    //       icon: "error",
-    //     });
-    //   } else {
-    //     swal({
-    //       title: "Request Error, try again later",
-    //       icon: "error",
-    //     });
-    //   }
-    // }
+    setLoading(true);
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      const response = await axiosInstance.post("/auth", JSON.stringify(user));
+      if (response.status === 200) {
+        const token = response.data.accessToken;
+        login(token);
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      if (!err?.response) {
+        swal({
+          title: "No Server Response",
+          icon: "error",
+        });
+      } else if (err.response?.status === 401) {
+        /* Unauthorized */
+        swal({
+          title: "User Name or Password Incorrect",
+          icon: "error",
+        });
+      } else {
+        swal({
+          title: "Request Error, try again later",
+          icon: "error",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
     /* ------- POST TO AUTHORIZATION API ------- */
   };
 
@@ -91,100 +81,100 @@ const Login = () => {
     formik;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: `url(${loginImg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundColor: (t) =>
+            t.palette.mode === "light"
+              ? t.palette.grey[50]
+              : t.palette.grey[900],
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Box
           sx={{
-            backgroundImage: `url(${loginImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-          sx={{
+            mx: 4,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
           }}
         >
+          <AccountCircleIcon color="disabled" sx={{ fontSize: 80 }} />
+
+          <Typography component="h1" variant="h5" sx={{ fontWeight: "600" }}>
+            Hello Again!
+          </Typography>
+          <Typography component="h1" variant="h6">
+            Welcome Back
+          </Typography>
           <Box
-            sx={{
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
           >
-            <AccountCircleIcon color="disabled" sx={{ fontSize: 80 }} />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoFocus
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.password && Boolean(errors.password)}
+              helperText={touched.password && errors.password}
+            />
 
-            <Typography component="h1" variant="h5" sx={{ fontWeight: "600" }}>
-              Hello Again!
-            </Typography>
-            <Typography component="h1" variant="h6">
-              Welcome Back
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              sx={{ mt: 3, mb: 2 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                autoFocus
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Log In
-              </Button>
-            </Box>
+              Log In
+            </Button>
           </Box>
-        </Grid>
+          {loading && <CircularProgress size={"3rem"} sx={{ mt: 2, mb: 2 }} />}
+        </Box>
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNotes } from "../../store/actions/notesActions";
+import { deleteNote } from "../../store/actions/notesActions";
 
 import Note from "../Note/Note";
 import Grid from "@mui/material/Grid";
@@ -10,9 +10,9 @@ import swal from "sweetalert";
 
 const ListNotes = ({ notesList, handleEdit }) => {
   const dispatch = useDispatch();
-  const { loading, notes } = useSelector((state) => state.notesReducer);
+  const { loading } = useSelector((state) => state.notesReducer);
 
-  const deleteNote = (id) => {
+  const deleteANote = (id) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this Note!",
@@ -21,7 +21,7 @@ const ListNotes = ({ notesList, handleEdit }) => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        dispatch(deleteNotes(notes, id));
+        dispatch(deleteNote(id));
       }
     });
   };
@@ -38,7 +38,7 @@ const ListNotes = ({ notesList, handleEdit }) => {
                 <Grid item xs={12} md={6} key={note.id}>
                   <Note
                     note={note}
-                    deleteNote={deleteNote}
+                    deleteANote={deleteANote}
                     handleEdit={handleEdit}
                   />
                 </Grid>

@@ -3,15 +3,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const handleLogin = async (req, res) => {
-  const { user, password } = req.body;
-  if (!user || !password)
+  const { email, password } = req.body;
+  if (!email || !password)
     return res
       .status(400)
-      .json({ "message": "Username and password are required." });
+      .json({ "message": "Email and password are required." });
 
   try {
     const foundUser = await User.findOne({
-      where: { username: user },
+      where: { email },
     });
 
     if (!foundUser?.dataValues) {
@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
       const accessToken = jwt.sign(
         {
           "UserInfo": {
-            "username": foundUser.dataValues.username,
+            "email": foundUser.dataValues.email,
           },
         },
         //expiration of access token

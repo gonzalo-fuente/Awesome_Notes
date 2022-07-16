@@ -7,7 +7,7 @@ import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 import Box from "@mui/system/Box";
 
 const NoteDetails = ({ note, open, handleClose }) => {
-  const dateTime = new Date(note.editedAt).toLocaleString();
+  const dateTime = new Date(note.updatedAt).toLocaleString();
   return (
     <Dialog onClose={handleClose} open={open}>
       <Box sx={{ backgroundColor: `${note.color}` }}>

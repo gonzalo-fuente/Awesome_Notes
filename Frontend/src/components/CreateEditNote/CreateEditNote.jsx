@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createNote, editNote } from "../../store/actions/notesActions";
-import { v4 as uuid } from "uuid";
 
 import ShowCategories from "../ShowCategories/ShowCategories";
 
@@ -12,27 +11,30 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Box from "@mui/system/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
   const [newNote, setNewNote] = useState({
-    id: "",
     title: "",
     content: "",
-    editedAt: "",
-    archived: false,
+    isArchived: false,
     categories: [],
     color: "",
   });
   const [validationError, setValidationError] = useState(false);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
+  const [color, setColor] = useState("#fff740");
   const dispatch = useDispatch();
-  const { notes } = useSelector((state) => state.notesReducer);
 
   useEffect(() => {
     if (editedNote) {
       setNewNote({ ...editedNote });
       setCategories([...editedNote.categories]);
+      setColor(editedNote.color);
     }
   }, [editedNote]);
 
@@ -46,8 +48,6 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     });
   };
 
-  const colors = ["#ff7eb9", "#ff65a3", "#7afcff", "#feff9c", "#fff740"];
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newNote.title === "") {
@@ -55,22 +55,19 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
     } else {
       if (editedNote) {
         dispatch(
-          editNote(notes, {
+          editNote({
             ...newNote,
-            editedAt: Date.now(),
-            categories: categories,
+            categories,
+            color,
           })
         );
         handleCancel();
       } else {
-        const color = colors[Math.floor(Math.random() * 5)];
         dispatch(
-          createNote(notes, {
+          createNote({
             ...newNote,
-            id: uuid(),
-            editedAt: Date.now(),
             color: color,
-            archived: false,
+            isArchived: false,
             categories: categories,
           })
         );
@@ -80,17 +77,16 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
   };
   const handleCancel = () => {
     setNewNote({
-      id: "",
       title: "",
       content: "",
-      editedAt: "",
-      archived: false,
+      isArchived: false,
     });
     setValidationError(false);
     setEditedNote(null);
     setCategories([]);
     setCategory("");
     handleClose();
+    setColor("#fff740");
   };
 
   const handleCategories = () => {
@@ -135,6 +131,91 @@ const CreateEditNote = ({ open, handleClose, editedNote, setEditedNote }) => {
             value={newNote.content}
             onChange={handleChange}
           />
+
+          <FormLabel id="note-color">Note Color</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="note-color"
+            name="note-color"
+            value={color}
+            onChange={(event) => setColor(event.target.value)}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              overflow: "hidden",
+            }}
+          >
+            <FormControlLabel
+              value="#ff7eb9"
+              control={
+                <Radio
+                  sx={{
+                    color: "#ff7eb9",
+                    "&.Mui-checked": {
+                      color: "#ff7eb9",
+                    },
+                  }}
+                />
+              }
+              label="Pink"
+            />
+            <FormControlLabel
+              value="#ff65a3"
+              control={
+                <Radio
+                  sx={{
+                    color: "#ff65a3",
+                    "&.Mui-checked": {
+                      color: "#ff65a3",
+                    },
+                  }}
+                />
+              }
+              label="Magenta"
+            />
+            <FormControlLabel
+              value="#7afcff"
+              control={
+                <Radio
+                  sx={{
+                    color: "#7afcff",
+                    "&.Mui-checked": {
+                      color: "#7afcff",
+                    },
+                  }}
+                />
+              }
+              label="Cyan"
+            />
+            <FormControlLabel
+              value="#feff9c"
+              control={
+                <Radio
+                  sx={{
+                    color: "#feff9c",
+                    "&.Mui-checked": {
+                      color: "#feff9c",
+                    },
+                  }}
+                />
+              }
+              label="Lemon"
+            />
+            <FormControlLabel
+              value="#fff740"
+              control={
+                <Radio
+                  sx={{
+                    color: "#fff740",
+                    "&.Mui-checked": {
+                      color: "#fff740",
+                    },
+                  }}
+                />
+              }
+              label="Yellow"
+            />
+          </RadioGroup>
 
           {categories.length ? (
             <ShowCategories

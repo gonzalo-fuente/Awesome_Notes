@@ -1,4 +1,4 @@
-# Awesome Notes
+# Awesome Notes Frontend
 
 Simple web application that allows you to take notes, tag
 and filter them.
@@ -38,26 +38,22 @@ The valid data to get a token are:
 - Yarn v1.22.19
 - @mui/icons-material v5.8.4
 - @mui/material v5.8.4
-- formik v2.2.9
-- framer-motion v6.3.11
-- react v18.2.0
-- react-redux v8.0.2
-- react-router-dom v6.3.0
-- redux v4.2.0
-- redux-thunk v2.4.1
-- sweetalert v2.1.2
-- yup v0.32.11
+- Formik v2.2.9
+- Framer-motion v6.3.11
+- React v18.2.0
+- React-redux v8.0.2
+- React-router-dom v6.3.0
+- Redux v4.2.0
+- Redux-thunk v2.4.1
+- Sweetalert v2.1.2
+- Yup v0.32.11
 
 ## How to run the App manually
 
 Go to the project root directory, and in the terminal run...
 
+### `cd Frontend`
+
 ### `yarn install`
 
 ### `yarn start` - runs the server on http://localhost:3000
-
-# How to run the App with single command
-
-In the terminal run...
-
-### `./startapp.sh`

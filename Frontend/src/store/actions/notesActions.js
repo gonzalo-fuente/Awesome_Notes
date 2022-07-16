@@ -1,4 +1,5 @@
 import { NOTES_REQUEST, NOTES_SUCCESS, NOTES_FAILURE } from "../types";
+import { axiosInstance } from "../../utils/axios";
 
 export const notesRequest = () => ({
   type: NOTES_REQUEST,
@@ -14,49 +15,81 @@ export const notesFailure = (error) => ({
   payload: error,
 });
 
-export const getNotes = (path) => async (dispatch) => {
+export const getNotes = () => async (dispatch) => {
   dispatch(notesRequest());
 
-  //The first time the app runs there's no "notes" in localStorage
-  //This produces the app loads indefinitely, so in this case
-  //I create "notes"
-  if (localStorage.getItem("notes") === null) {
-    localStorage.setItem("notes", "[]");
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  if (token) {
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
   }
-
   try {
-    const response = await localStorage.getItem("notes");
-    if (response) {
-      const data = JSON.parse(response);
-      dispatch(notesSuccess(data));
+    const response = await axiosInstance.get(`/notes`);
+
+    if (response.status === 200) {
+      dispatch(notesSuccess(response.data));
+    } else if (response.status === 204) {
+      dispatch(notesSuccess([]));
     }
   } catch (error) {
     dispatch(notesFailure(error));
   }
 };
 
-export const createNote = (notes, newNote) => (dispatch) => {
+export const createNote = (note) => async (dispatch) => {
   dispatch(notesRequest());
 
-  const newNotes = [...notes, newNote];
-  localStorage.setItem("notes", JSON.stringify(newNotes));
-  dispatch(getNotes());
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  if (token) {
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
+  }
+  try {
+    const response = await axiosInstance.post(`/notes`, JSON.stringify(note));
+    if (response.status === 200) {
+      console.log("Note Created");
+    }
+  } catch (error) {
+    dispatch(notesFailure(error));
+  } finally {
+    dispatch(getNotes());
+  }
 };
 
-export const editNote = (notes, editedNote) => (dispatch) => {
+export const editNote = (note) => async (dispatch) => {
   dispatch(notesRequest());
 
-  const newNotesList = notes.filter((note) => note.id !== editedNote.id);
-  const newNotes = [...newNotesList, editedNote];
-  localStorage.setItem("notes", JSON.stringify(newNotes));
-  dispatch(getNotes());
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  if (token) {
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
+  }
+  try {
+    const response = await axiosInstance.put("/notes", JSON.stringify(note));
+    if (response.status === 200) {
+      console.log("Note Edited");
+    }
+  } catch (error) {
+    dispatch(notesFailure(error));
+  } finally {
+    dispatch(getNotes());
+  }
 };
 
-export const deleteNotes = (notes, id) => (dispatch) => {
+export const deleteNote = (id) => async (dispatch) => {
   dispatch(notesRequest());
-  const newNotes = notes.filter((note) => note.id !== id);
-  localStorage.setItem("notes", JSON.stringify(newNotes));
-  dispatch(getNotes(""));
 
-  // dispatch(notesFailure(error));
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  if (token) {
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
+  }
+  try {
+    const response = await axiosInstance.delete("/notes", {
+      data: JSON.stringify({ id: id }),
+    });
+    if (response.status === 200) {
+      console.log("Note Deleted");
+    }
+  } catch (error) {
+    dispatch(notesFailure(error));
+  } finally {
+    dispatch(getNotes());
+  }
 };
