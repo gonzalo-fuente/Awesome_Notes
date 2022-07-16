@@ -85,30 +85,15 @@ const MyNotes = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isNoteArchived={isNoteArchived} handleArchived={handleArchived} />
       <Container>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "2em", mt: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "2em", mt: 3 }}>
           <Typography variant="h4" my={2}>
             {isNoteArchived ? "Archived" : "My Notes"}
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              alignItems: "center",
-              gap: {
-                xs: "1em",
-                sm: "2em",
-              },
-            }}
-          >
-            <Button variant="contained" onClick={handleOpen}>
-              Create Note
-            </Button>
-            <Button variant="text" onClick={handleArchived}>
-              {isNoteArchived ? "My Notes" : "Archived"}
-            </Button>
-          </Box>
+          <Button variant="contained" onClick={handleOpen}>
+            Create Note
+          </Button>
         </Box>
         <SelectCategory
           categories={categories}

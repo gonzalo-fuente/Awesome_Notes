@@ -1,4 +1,4 @@
-# Awesome Notes
+# Awesome Notes Frontend
 
 Simple web application that allows you to take notes, tag
 and filter them.
@@ -55,9 +55,3 @@ Go to the project root directory, and in the terminal run...
 ### `yarn install`
 
 ### `yarn start` - runs the server on http://localhost:3000
-
-# How to run the App with single command
-
-In the terminal run...
-
-### `./startapp.sh`

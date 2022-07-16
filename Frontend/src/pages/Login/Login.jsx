@@ -14,11 +14,8 @@ import Grid from "@mui/material/Grid";
 import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import loginImg from "../../assets/Login.png";
-
-const theme = createTheme();
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -84,104 +81,100 @@ const Login = () => {
     formik;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: `url(${loginImg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundColor: (t) =>
+            t.palette.mode === "light"
+              ? t.palette.grey[50]
+              : t.palette.grey[900],
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Box
           sx={{
-            backgroundImage: `url(${loginImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-          sx={{
+            mx: 4,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
           }}
         >
+          <AccountCircleIcon color="disabled" sx={{ fontSize: 80 }} />
+
+          <Typography component="h1" variant="h5" sx={{ fontWeight: "600" }}>
+            Hello Again!
+          </Typography>
+          <Typography component="h1" variant="h6">
+            Welcome Back
+          </Typography>
           <Box
-            sx={{
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
           >
-            <AccountCircleIcon color="disabled" sx={{ fontSize: 80 }} />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoFocus
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.password && Boolean(errors.password)}
+              helperText={touched.password && errors.password}
+            />
 
-            <Typography component="h1" variant="h5" sx={{ fontWeight: "600" }}>
-              Hello Again!
-            </Typography>
-            <Typography component="h1" variant="h6">
-              Welcome Back
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              sx={{ mt: 3, mb: 2 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                autoFocus
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={loading}
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Log In
-              </Button>
-            </Box>
-            {loading && (
-              <CircularProgress size={"3rem"} sx={{ mt: 2, mb: 2 }} />
-            )}
+              Log In
+            </Button>
           </Box>
-        </Grid>
+          {loading && <CircularProgress size={"3rem"} sx={{ mt: 2, mb: 2 }} />}
+        </Box>
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
 };
 
