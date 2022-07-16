@@ -7,6 +7,7 @@ cd Backend/
 npm install
 npm run create
 npm run migrate
+npm run create-seed
 npm start &
 BACKEND_PID=$!
 
@@ -21,5 +22,3 @@ google-chrome http://localhost:3000
 # Kill running processes
 kill -9 $BACKEND_PID
 kill -9 $FRONTEND_PID
-
-

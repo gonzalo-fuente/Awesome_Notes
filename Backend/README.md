@@ -54,6 +54,8 @@ In order to run the backend is necessary to make the following modifications...
 
 ### `npm run migrate`
 
+### `npm run create-seed`
+
 5. You can now delete the /config/config.json file.
 
 6. Start the server. In the terminal run...
