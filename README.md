@@ -12,7 +12,7 @@ The valid data to get a token are:
 - Email: user@user.com
 - Password: password
 
-[Link to the API!](https://awesome-notes-backend.herokuapp.com/)
+[Link to the API!](https://awesome-notes-backend.onrender.com/)
 
 ## Use cases
 
